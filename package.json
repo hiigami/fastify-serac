@@ -1,0 +1,61 @@
+{
+  "name": "fastify-serac",
+  "version": "0.0.1-alpha",
+  "description": "",
+  "types": "./lib/main.d.ts",
+  "main": "./lib/main.js",
+  "bin": {
+    "fastify-serac": "bin/index.js"
+  },
+  "files": [
+    "lib/",
+    "bin/"
+  ],
+  "dependencies": {
+    "fastify-plugin": "^3.0.0",
+    "yargs": "^17.2.1",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "@types/yup": "^0.29.13",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.3.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "fastify": "^3.24.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "mrm": "^3.0.10",
+    "np": "^7.6.0",
+    "prettier": "^2.4.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "peerDependencies": {
+    "@prisma/client": "^3.5.0"
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write",
+      "npm run lint"
+    ]
+  },
+  "scripts": {
+    "lint": "eslint",
+    "build": "npx tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiigami/fastify-serac.git"
+  },
+  "author": "@hiigami",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiigami/fastify-serac/issues"
+  },
+  "homepage": "https://github.com/hiigami/fastify-serac#readme"
+}
