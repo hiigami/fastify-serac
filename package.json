@@ -1,6 +1,6 @@
 {
   "name": "fastify-serac",
-  "version": "0.0.1-alpha",
+  "version": "0.0.1-alpha.0",
   "description": "",
   "types": "./lib/main.d.ts",
   "main": "./lib/main.js",
