@@ -52,4 +52,4 @@ async function plugin(server: FastifyInstance, options?: PluginOptions) {
   loadBlueprints(server);
 }
 
-export default fp(plugin, { fastify: "3.x", name: "serac" });
+export default fp(plugin, { fastify: "3.x", name: "fastify-serac" });

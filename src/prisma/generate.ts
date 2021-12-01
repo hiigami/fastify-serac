@@ -375,7 +375,7 @@ function createDefinition(identifiers: IdentifiersMap, tables: TableMap) {
 export function build(path: string, exclude?: Set<string>) {
   const { identifiers, tables } = getTablesDetails(path, exclude);
   const data = createDefinition(identifiers, tables);
-  const _path = join(path, "node_modules/serac/lib/prisma/tables.ts");
+  const _path = join(path, "node_modules/fastify-serac/lib/prisma/tables.ts");
   fs.writeFileSync(_path, data.join(""));
   const program = ts.createProgram([_path], {
     strict: true,
