@@ -67,8 +67,8 @@ export interface TopLevelLinks extends ResourceLinks {
   last: string;
 }
 
-export interface TopLevelMeta {
-  total: number;
+export interface TopLevelMeta extends UnknownDict {
+  total?: number;
 }
 
 export interface TopLevelJSONAPI {
