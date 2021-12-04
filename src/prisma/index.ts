@@ -27,6 +27,8 @@ function removeFromSerializer<T extends TableItems>(
   const keys = new Set(serializer.exclude);
   if (!forWrites) {
     serializer.writeOnly?.forEach((x) => keys.add(x));
+  } else {
+    serializer.readOnly?.forEach((x) => keys.add(x));
   }
   const m = new Map(items);
   for (const k of m.keys()) {

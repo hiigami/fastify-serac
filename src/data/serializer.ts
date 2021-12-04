@@ -31,6 +31,7 @@ export type SerializerHook<T extends HookQueryType> = (query: T) => Promise<T>;
 
 export interface Serializer {
   exclude?: Set<string>;
+  readOnly?: Set<string>;
   writeOnly?: Set<string>;
   preHandler?: RouterOptions["preHandler"];
   list?: SerializerHook<ReadQuery>;
