@@ -1,6 +1,12 @@
 import path from "path";
 
-import { FastifyInstance, HTTPMethods, RouteOptions } from "fastify";
+import {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  HTTPMethods,
+  RouteOptions,
+} from "fastify";
 import { AnySchema } from "yup";
 
 import {
@@ -11,6 +17,9 @@ import {
 import { merge, removeUndefinedOrEmpty } from "../common";
 
 import { Router } from "./router";
+import { Processor } from "../processor";
+import { errorHandlers } from "../handler";
+import { setHeaders } from "../json_api";
 
 function validateData<T>(routeSchema: FastifyRouteSchemaDef<T>, data: unknown) {
   const schema = routeSchema.schema as unknown as AnySchema;
@@ -48,6 +57,26 @@ function getURL(name: Lowercase<string>) {
   return name.endsWith("s") ? name : `${name}s`;
 }
 
+async function onError(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  error: Error
+) {
+  const processor = new Processor([
+    new errorHandlers.PrismaValidationErrorHandler(),
+    new errorHandlers.PrismaKnownRequestErrorHandler(),
+    new errorHandlers.PrismaUnknownRequestErrorHandler(),
+    new errorHandlers.FastifyErrorHandler(),
+    new errorHandlers.SeracAggregateErrorHandler(),
+    new errorHandlers.SeracErrorHandler(),
+  ]);
+  const e = await processor.run(error, request, true);
+  if (e !== undefined) {
+    return setHeaders(reply.status(e.status)).send(e.toJSON());
+  }
+  return reply.send(error);
+}
+
 export class View implements Iterator<RouteOptions> {
   private mapper: ViewMethods;
   private methods: string[];
@@ -69,6 +98,7 @@ export class View implements Iterator<RouteOptions> {
             ...routeOptions,
             method: [getHTTPMethod(key)],
             validatorCompiler,
+            onError,
           },
           done: false,
         };

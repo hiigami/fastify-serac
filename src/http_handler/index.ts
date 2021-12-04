@@ -9,10 +9,9 @@ import {
 } from "../data/json_api";
 import { HookQueryType, SerializerHook } from "../data/serializer";
 import { UnknownDict } from "../data/types";
-import { prismaErrorCodeToStatusCode } from "../json_api";
 import { getPaginationLinks } from "../json_api/pagination";
 import { serializers } from "../mapper/serializer";
-import { getPrismaProperty, getPrismaErrorCode } from "../prisma/common";
+import { getPrismaProperty } from "../prisma/common";
 import * as serializer from "../serializer";
 
 function setHeaders(reply: FastifyReply, headers?: UnknownDict): FastifyReply {
@@ -24,11 +23,6 @@ function setHeaders(reply: FastifyReply, headers?: UnknownDict): FastifyReply {
 
 function getIdParameter(params: UnknownDict) {
   return Number.parseInt(params.id as string);
-}
-
-function checkPrismaErrorCode(e: unknown) {
-  const errorCode = getPrismaErrorCode(e);
-  return prismaErrorCodeToStatusCode(errorCode);
 }
 
 async function applyQueryHook<T extends HookQueryType>(
@@ -50,15 +44,7 @@ export const deleteHandler =
   ): Promise<UnknownDict> => {
     const table = getPrismaProperty(tableName, request.server.prisma);
     const identifier = getIdParameter(request.params as UnknownDict);
-    try {
-      await table.delete({ where: { id: identifier } });
-    } catch (e) {
-      const statusCode = checkPrismaErrorCode(e);
-      if (statusCode !== undefined) {
-        return reply.status(statusCode).send();
-      }
-      throw e;
-    }
+    await table.delete({ where: { id: identifier } });
     return reply.status(204).send();
   };
 
@@ -75,20 +61,12 @@ export const patchHandler =
     if (query.where.id !== identifier) {
       return reply.status(409).send(); /**@todo check if correct response*/
     }
-    try {
-      const table = getPrismaProperty(tableName, request.server.prisma);
-      const _query = await applyQueryHook(
-        query,
-        serializers.get(tableName)?.update
-      );
-      await table.update(_query);
-    } catch (e) {
-      const statusCode = checkPrismaErrorCode(e);
-      if (statusCode !== undefined) {
-        return reply.status(statusCode).send();
-      }
-      throw e;
-    }
+    const table = getPrismaProperty(tableName, request.server.prisma);
+    const _query = await applyQueryHook(
+      query,
+      serializers.get(tableName)?.update
+    );
+    await table.update(_query);
     return setHeaders(reply).status(204).send();
   };
 
@@ -162,21 +140,12 @@ export const postHandler =
     const query = serializer.serializePrismaCreateQuery(
       request.body as CreatePayload
     );
-    let response;
-    try {
-      const _query = await applyQueryHook(
-        query,
-        serializers.get(tableName)?.create
-      );
-      const item = await table.create(_query);
-      response = serializer.serializePrismaData(tableName, item);
-    } catch (e) {
-      const statusCode = checkPrismaErrorCode(e);
-      if (statusCode !== undefined) {
-        return reply.status(statusCode).send();
-      }
-      throw e;
-    }
+    const _query = await applyQueryHook(
+      query,
+      serializers.get(tableName)?.create
+    );
+    const item = await table.create(_query);
+    const response = serializer.serializePrismaData(tableName, item);
     const location = (response?.data as TopLevelResource).links?.self;
     return setHeaders(reply, { Location: location }).status(201).send(response);
   };

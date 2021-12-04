@@ -1,8 +1,14 @@
-import { getPrismaCodeToStatusCode } from "../mapper";
+import { FastifyReply } from "fastify";
 
-export function prismaErrorCodeToStatusCode(code?: string) {
-  if (code === undefined) {
-    return undefined;
-  }
-  return getPrismaCodeToStatusCode().get(code);
+import { Headers, MediaType } from "../data/enumeration";
+import { UnknownDict } from "../data/types";
+
+export function setHeaders(
+  reply: FastifyReply,
+  headers?: UnknownDict
+): FastifyReply {
+  return reply.headers({
+    ...headers,
+    [Headers.ContentType]: MediaType.JsonAPI,
+  });
 }

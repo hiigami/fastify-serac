@@ -55,11 +55,3 @@ export function getLexerLiteralRules() {
     [TokenType.S_QUOTE, { re: /([^']+)'/i, type: TokenType.String }],
   ]);
 }
-
-export function getPrismaCodeToStatusCode() {
-  return new Map([
-    ["P2002", 409],
-    ["P2014", 409],
-    ["P2025", 404],
-  ]);
-}
