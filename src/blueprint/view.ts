@@ -20,6 +20,8 @@ import { Router } from "./router";
 import { Processor } from "../processor";
 import { errorHandlers } from "../handler";
 import { setHeaders } from "../json_api";
+import { SeracError } from "../error";
+import { ErrorCode, ErrorTitle } from "../data/enumeration";
 
 function validateData<T>(routeSchema: FastifyRouteSchemaDef<T>, data: unknown) {
   const schema = routeSchema.schema as unknown as AnySchema;
@@ -30,7 +32,12 @@ function validateData<T>(routeSchema: FastifyRouteSchemaDef<T>, data: unknown) {
     );
     return { value: { ...r } };
   } catch (e: unknown) {
-    const err = e as Error;
+    const err = new SeracError({
+      code: ErrorCode.Validation,
+      title: ErrorTitle.Validation,
+      detail: (e as Error).message,
+      status: routeSchema.httpPart !== "headers" ? 400 : 415,
+    });
     return { error: err };
   }
 }
@@ -57,10 +64,10 @@ function getURL(name: Lowercase<string>) {
   return name.endsWith("s") ? name : `${name}s`;
 }
 
-async function onError(
+async function errorHandler(
+  error: Error,
   request: FastifyRequest,
-  reply: FastifyReply,
-  error: Error
+  reply: FastifyReply
 ) {
   const processor = new Processor([
     new errorHandlers.PrismaValidationErrorHandler(),
@@ -72,9 +79,9 @@ async function onError(
   ]);
   const e = await processor.run(error, request, true);
   if (e !== undefined) {
-    return setHeaders(reply.status(e.status)).send(e.toJSON());
+    return await setHeaders(reply).status(e.status).send(e.toJSON());
   }
-  return reply.send(error);
+  return await reply.send(error);
 }
 
 export class View implements Iterator<RouteOptions> {
@@ -98,7 +105,7 @@ export class View implements Iterator<RouteOptions> {
             ...routeOptions,
             method: [getHTTPMethod(key)],
             validatorCompiler,
-            onError,
+            errorHandler,
           },
           done: false,
         };

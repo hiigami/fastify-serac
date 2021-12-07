@@ -55,7 +55,7 @@ export class PrismaKnownRequestErrorHandler extends PrismaErrorHandler {
     return this.isPrismaError<PrismaClientKnownRequestError>(
       t,
       "clientVersion",
-      "PrismaKnownRequestError"
+      "PrismaClientKnownRequestError"
     );
   }
 }
