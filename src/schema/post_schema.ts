@@ -5,7 +5,6 @@ import { TableFieldArgs } from "../data/schema";
 import { StrKeyDict } from "../data/types";
 import { getTypeToSchema } from "../mapper";
 import { getTable } from "../prisma";
-
 import { getTableFieldsSchemas, relationSchemaCondition } from "./common";
 
 function getRelationshipsSchemas(table: Table) {

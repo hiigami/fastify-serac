@@ -1,5 +1,3 @@
-import path from "path";
-
 import {
   FastifyInstance,
   FastifyReply,
@@ -7,21 +5,21 @@ import {
   HTTPMethods,
   RouteOptions,
 } from "fastify";
+import path from "path";
 import { AnySchema } from "yup";
 
+import { merge, removeUndefinedOrEmpty } from "../common";
 import {
   FastifyRouteSchemaDef,
   ViewArgs,
   ViewMethods,
 } from "../data/blueprint";
-import { merge, removeUndefinedOrEmpty } from "../common";
-
-import { Router } from "./router";
-import { Processor } from "../processor";
+import { ErrorCode, ErrorTitle } from "../data/enumeration";
+import { SeracError } from "../error";
 import { errorHandlers } from "../handler";
 import { setHeaders } from "../json_api";
-import { SeracError } from "../error";
-import { ErrorCode, ErrorTitle } from "../data/enumeration";
+import { Processor } from "../processor";
+import { Router } from "./router";
 
 function validateData<T>(routeSchema: FastifyRouteSchemaDef<T>, data: unknown) {
   const schema = routeSchema.schema as unknown as AnySchema;

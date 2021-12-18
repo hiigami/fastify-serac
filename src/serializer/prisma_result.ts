@@ -7,9 +7,8 @@ import {
   TopLevelObject,
   TopLevelResource,
 } from "../data/json_api";
-import { TableFields, TableRelations, Table } from "../data/prisma";
+import { Table, TableFields, TableRelations } from "../data/prisma";
 import { UnknownDict } from "../data/types";
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { mapper } from "../prisma/tables";

@@ -27,13 +27,14 @@ function getIdParameter(params: UnknownDict) {
 
 async function applyQueryHook<T extends HookQueryType>(
   query: T,
+  request: FastifyRequest,
   hook?: SerializerHook<T>
 ) {
   if (hook === undefined) {
     return query;
   }
 
-  return await hook(query);
+  return await hook(query, request);
 }
 
 export const deleteHandler =
@@ -64,6 +65,7 @@ export const patchHandler =
     const table = getPrismaProperty(tableName, request.server.prisma);
     const _query = await applyQueryHook(
       query,
+      request,
       serializers.get(tableName)?.update
     );
     await table.update(_query);
@@ -107,6 +109,7 @@ export const listHandler =
     );
     const _query = await applyQueryHook(
       query,
+      request,
       serializers.get(tableName)?.list
     );
     const [items, count] = await Promise.all([
@@ -142,6 +145,7 @@ export const postHandler =
     );
     const _query = await applyQueryHook(
       query,
+      request,
       serializers.get(tableName)?.create
     );
     const item = await table.create(_query);

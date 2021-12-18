@@ -9,7 +9,6 @@ import { Table } from "../data/prisma";
 import { QueryItem, ReadQuery, SelectQueryPart } from "../data/serializer";
 import { tokenizer } from "../json_api/lexer";
 import { getTable } from "../prisma";
-
 import { serializeFilter } from "./filters";
 
 function getSkipValue(pagination?: QueryPagination) {

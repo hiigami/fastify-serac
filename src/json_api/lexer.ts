@@ -1,6 +1,6 @@
+import { getTokenValue } from "../common";
 import { TokenType } from "../data/enumeration";
 import { Token } from "../data/json_api";
-import { getTokenValue } from "../common";
 import { getLexerKeywords, getLexerLiteralRules } from "../mapper";
 
 function createToken(type: TokenType, start: number, length = 1): Token {

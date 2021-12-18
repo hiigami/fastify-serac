@@ -3,8 +3,8 @@ import fs from "fs";
 import { join } from "path";
 import ts from "typescript";
 
-import { Identifier } from "../data/prisma";
 import { is, unTitle } from "../common";
+import { Identifier } from "../data/prisma";
 
 interface FieldItem {
   type: string;

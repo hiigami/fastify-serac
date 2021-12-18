@@ -1,4 +1,5 @@
 import { AnySchema } from "yup";
+
 import { FieldType } from "./prisma";
 
 export type SchemaCreatFn = () => AnySchema;

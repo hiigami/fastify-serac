@@ -1,14 +1,14 @@
 import {
   FastifyInstance,
-  RouteOptions,
   HTTPMethods,
-  preValidationHookHandler,
-  preParsingHookHandler,
+  RouteOptions,
   preHandlerHookHandler,
+  preParsingHookHandler,
+  preValidationHookHandler,
 } from "fastify";
+
 import { HTTPHandler } from "./http_handler";
 import { HTTPSchemas } from "./json_api";
-
 import { Dict } from "./types";
 
 export type ComposedHook<T> = (server: FastifyInstance) => T;

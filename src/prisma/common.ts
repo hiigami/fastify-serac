@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { unTitle, getPropertyOf } from "../common";
+import { getPropertyOf, unTitle } from "../common";
 
 export function getPrismaProperty(tableName: string, prisma: PrismaClient) {
   const propertyName = unTitle(tableName) as keyof PrismaClient;

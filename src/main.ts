@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import fp from "fastify-plugin";
 
+import { loadBlueprints } from "./blueprint";
 import { MediaType } from "./data/enumeration";
 import {
   CreateQuery,
@@ -8,14 +9,14 @@ import {
   ReadQuery,
   Serializer,
 } from "./data/serializer";
-import { loadBlueprints } from "./blueprint";
 import { serializers } from "./mapper/serializer";
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { mapper } from "./prisma/tables";
 
 export { CreateQuery, PatchQuery, ReadQuery, Serializer };
+export { SeracErrorArgs } from "./data/error";
+export { SeracError, SeracAggregateError } from "./error";
 
 interface PluginOptions extends FastifyPluginOptions {
   [x: string]: Serializer;

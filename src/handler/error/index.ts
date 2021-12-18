@@ -10,7 +10,6 @@ import { ErrorCode, ErrorTitle } from "../../data/enumeration";
 import { UnknownDict } from "../../data/types";
 import { SeracAggregateError, SeracError } from "../../error";
 import { getPrismaCodeToErrorArgs } from "../../mapper/error";
-
 import { Handler } from "../handler";
 
 declare class PrismaClientGenericError extends Error {

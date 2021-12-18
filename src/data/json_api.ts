@@ -1,4 +1,5 @@
 import { AnySchema } from "yup";
+
 import { TokenType } from "./enumeration";
 import { StrKeyDict, UnknownDict } from "./types";
 

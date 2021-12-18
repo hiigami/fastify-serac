@@ -1,4 +1,5 @@
-import { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
+
 import { UnknownDict } from "./types";
 
 export type HTTPHandler = (

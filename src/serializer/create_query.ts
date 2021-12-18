@@ -6,7 +6,6 @@ import {
   ResourceIdentifier,
 } from "../data/json_api";
 import { UnknownDict } from "../data/types";
-
 import { getAttributes } from "./common";
 
 function getRelation(data: Omit<RelationShipData, "null">) {

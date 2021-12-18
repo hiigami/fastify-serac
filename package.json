@@ -13,34 +13,42 @@
   ],
   "dependencies": {
     "fastify-plugin": "^3.0.0",
-    "yargs": "^17.2.1",
+    "yargs": "^17.3.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@types/node": "^16.11.10",
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
+    "@types/node": "^17.0.0",
     "@types/yup": "^0.29.13",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "eslint": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "fastify": "^3.24.0",
+    "fastify": "^3.25.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.2",
     "mrm": "^3.0.10",
     "np": "^7.6.0",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.1",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.4"
   },
   "peerDependencies": {
-    "@prisma/client": "^3.5.0"
+    "@prisma/client": "^3.6.0"
   },
   "lint-staged": {
     "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write",
       "npm run lint"
     ]
+  },
+  "prettier": {
+    "importOrder": [
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
   },
   "scripts": {
     "lint": "eslint",

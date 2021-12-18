@@ -1,7 +1,7 @@
+import { getTokenValue } from "../common";
 import { TokenType } from "../data/enumeration";
 import { Token } from "../data/json_api";
 import { Field, FieldType } from "../data/prisma";
-import { getTokenValue } from "../common";
 import { QueryItem } from "../data/serializer";
 
 function toType(x: string, t: FieldType) {

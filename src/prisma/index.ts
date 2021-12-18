@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 import { Table, TableFields, TableRelations } from "../data/prisma";
 import { serializers } from "../mapper/serializer";
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { mapper } from "./tables";

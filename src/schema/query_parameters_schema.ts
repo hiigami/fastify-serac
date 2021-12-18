@@ -1,8 +1,8 @@
 import * as yup from "yup";
 
+import { unTitle } from "../common";
 import { Table } from "../data/prisma";
 import { StrKeyDict } from "../data/types";
-import { unTitle } from "../common";
 import { Dictionary } from "../dictionary";
 import { tokenizer } from "../json_api/lexer";
 import { parser } from "../json_api/parser";

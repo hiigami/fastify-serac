@@ -1,3 +1,5 @@
+import { FastifyRequest } from "fastify";
+
 import { RouterOptions } from "./blueprint";
 import { StrKeyDict, UnknownDict } from "./types";
 
@@ -27,7 +29,10 @@ export type PatchQuery = CreateQuery;
 
 export type HookQueryType = CreateQuery | PatchQuery | ReadQuery;
 
-export type SerializerHook<T extends HookQueryType> = (query: T) => Promise<T>;
+export type SerializerHook<T extends HookQueryType> = (
+  query: T,
+  request: FastifyRequest
+) => Promise<T>;
 
 export interface Serializer {
   exclude?: Set<string>;

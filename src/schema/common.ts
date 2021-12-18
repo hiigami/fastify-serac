@@ -1,4 +1,4 @@
-import { AnySchema, AnyObjectSchema, string as yupString } from "yup";
+import { AnyObjectSchema, AnySchema, string as yupString } from "yup";
 
 import { RelationShip } from "../data/json_api";
 import { Table } from "../data/prisma";

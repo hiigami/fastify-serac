@@ -1,9 +1,9 @@
 import * as yup from "yup";
-import { Headers, MediaType } from "../data/enumeration";
 
-import { buildQueryParametersSchema } from "./query_parameters_schema";
+import { Headers, MediaType } from "../data/enumeration";
 import { buildPatchSchema } from "./patch_schema";
 import { buildPostSchema } from "./post_schema";
+import { buildQueryParametersSchema } from "./query_parameters_schema";
 
 function getHeaderSchema() {
   return yup
