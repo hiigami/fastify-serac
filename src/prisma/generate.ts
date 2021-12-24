@@ -2,6 +2,7 @@ import { exec } from "child_process";
 import fs from "fs";
 import { join } from "path";
 import ts from "typescript";
+import util from "util";
 
 import { is, unTitle } from "../common";
 import { Identifier } from "../data/prisma";
@@ -372,7 +373,20 @@ function createDefinition(identifiers: IdentifiersMap, tables: TableMap) {
   return stack;
 }
 
-export function build(path: string, exclude?: Set<string>) {
+async function formatTableFile(path: string) {
+  const promisify_exec = util.promisify(exec);
+  return await promisify_exec(
+    `npx prettier --with-node-modules --write ${path}`
+  );
+}
+
+function printSuccessMessage(tableFilePath: string) {
+  console.log();
+  console.log(`Generated table mapper for blueprint to ${tableFilePath}`);
+  console.log(`You can now start using Serac plugin in your code.`);
+}
+
+export async function build(path: string, exclude?: Set<string>) {
   const { identifiers, tables } = getTablesDetails(path, exclude);
   const data = createDefinition(identifiers, tables);
   const _path = join(path, "node_modules/fastify-serac/lib/prisma/tables.ts");
@@ -386,18 +400,13 @@ export function build(path: string, exclude?: Set<string>) {
   });
   program.emit();
   fs.unlinkSync(_path);
-  exec(
-    `npx prettier --with-node-modules --write ${_path.replace(".ts", ".js")}`,
-    (error, _stdout, _stderr) => {
-      if (error) {
-        console.error(error);
-        process.exit(1);
-      }
-      console.log();
-      console.log(
-        `Generated table mapper for blueprint to ${_path.replace(".ts", ".js")}`
-      );
-      console.log(`You can now start using Serac plugin in your code.`);
-    }
-  );
+  const tableFilePath = _path.replace(".ts", ".js");
+  try {
+    await formatTableFile(tableFilePath);
+  } catch (error) {
+    console.log();
+    console.warn(`Couldn't format file ${tableFilePath}`);
+  }
+  printSuccessMessage(tableFilePath);
+  return;
 }

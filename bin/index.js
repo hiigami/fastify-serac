@@ -17,10 +17,10 @@ yargs(hideBin(process.argv))
         demandOption: false,
       },
     },
-    (argv) => {
+    async (argv) => {
       const exclude =
         typeof argv.exclude === "undefined" ? undefined : new Set(argv.exclude);
-      generate.build(path.resolve("."), exclude);
+      await generate.build(path.resolve("."), exclude);
     }
   )
   .help()
