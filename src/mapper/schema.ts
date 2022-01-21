@@ -9,5 +9,6 @@ export function getTypeToSchema() {
     [String, yup.string],
     [Boolean, yup.boolean],
     [Date, yup.date],
+    [Object, yup.object],
   ]);
 }

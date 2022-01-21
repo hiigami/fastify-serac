@@ -4,7 +4,8 @@ export type FieldType =
   | NumberConstructor
   | BooleanConstructor
   | StringConstructor
-  | DateConstructor;
+  | DateConstructor
+  | ObjectConstructor;
 
 export interface Field {
   required?: boolean;

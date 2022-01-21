@@ -88,9 +88,20 @@ function getTables(members: ts.NodeArray<ts.TypeElement>) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const _type = signature.type!;
     if (ts.isTypeReferenceNode(_type)) {
-      fields.set(name, {
-        type: getIdentifierName(_type.typeName as ts.Identifier),
-      });
+      if (ts.isQualifiedName(_type.typeName)) {
+        const _identifierName = getIdentifierName(
+          _type.typeName.right as ts.Identifier
+        );
+        if (_identifierName === "JsonValue") {
+          fields.set(name, {
+            type: "Object",
+          });
+        }
+      } else {
+        fields.set(name, {
+          type: getIdentifierName(_type.typeName as ts.Identifier),
+        });
+      }
     } else if (ts.isUnionTypeNode(_type)) {
       fields.set(name, getTypesFromUnionNode(_type));
     } else {
@@ -383,7 +394,7 @@ async function formatTableFile(path: string) {
 function printSuccessMessage(tableFilePath: string) {
   console.log();
   console.log(`Generated table mapper for blueprint to ${tableFilePath}`);
-  console.log(`You can now start using Serac plugin in your code.`);
+  console.log(`You can now start using Fastify-Serac plugin in your code.`);
 }
 
 export async function build(path: string, exclude?: Set<string>) {
