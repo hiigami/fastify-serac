@@ -70,6 +70,11 @@ function getTypesFromUnionNode(node: ts.UnionTypeNode) {
       } else {
         typeNames.push(typeName);
       }
+    } else if (ts.isTypeReferenceNode(n)) {
+      if (ts.isIdentifier(n.typeName)) {
+        const _identifierName = getIdentifierName(n.typeName as ts.Identifier);
+        typeNames.push(_identifierName);
+      }
     } else {
       typeNames.push(getNodeKindName(n));
     }
